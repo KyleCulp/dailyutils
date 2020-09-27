@@ -6,6 +6,7 @@ config :dailyutils, DailyUtils.Repo,
   password: "postgrespassword",
   database: "pcpb",
   hostname: "localhost",
+  port: 5433,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
