@@ -1,0 +1,35 @@
+<h1>Listing Todo lists</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, DailyUtilsWeb.TodoListLive.FormComponent,
+    id: @todo_list.id || :new,
+    title: @page_title,
+    action: @live_action,
+    todo_list: @todo_list,
+    return_to: Routes.todo_list_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+        <th>Name <% @current_user %></th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="todo_lists">
+    <%= for todo_list <- @todo_lists do %>
+      <tr id="todo_list-<%= todo_list.id %>">
+        <td><%= todo_list.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.todo_list_show_path(@socket, :show, todo_list) %></span>
+          <span><%= live_patch "Edit", to: Routes.todo_list_index_path(@socket, :edit, todo_list) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: todo_list.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Todo list", to: Routes.todo_list_index_path(@socket, :new) %></span>

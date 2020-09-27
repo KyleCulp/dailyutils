@@ -1,0 +1,22 @@
+<h1>Show Todo list</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, DailyUtilsWeb.TodoListLive.FormComponent,
+    id: @todo_list.id,
+    title: @page_title,
+    action: @live_action,
+    todo_list: @todo_list,
+    return_to: Routes.todo_list_show_path(@socket, :show, @todo_list) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @todo_list.name %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.todo_list_show_path(@socket, :edit, @todo_list), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.todo_list_index_path(@socket, :index) %></span>
