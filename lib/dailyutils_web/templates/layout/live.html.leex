@@ -1,14 +1,11 @@
-  <%= live_component @socket, DailyUtilsWeb.LiveComponents.Header, content: "heya" %>
 <main role="main" id="wrapper" class="flex sm:flex-col md:flex-row font-light w-full">
 
 
-  <p class="alert alert-info" role="alert"
-    phx-click="lv:clear-flash"
-    phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+  <p class="alert alert-info" role="alert" phx-click="lv:clear-flash" phx-value-key="info">
+    <%= live_flash(@flash, :info) %></p>
 
-  <p class="alert alert-danger" role="alert"
-    phx-click="lv:clear-flash"
-    phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+  <p class="alert alert-danger" role="alert" phx-click="lv:clear-flash" phx-value-key="error">
+    <%= live_flash(@flash, :error) %></p>
 
-  <%# <%= @inner_content %>
+  <%= @inner_content %>
 </main>

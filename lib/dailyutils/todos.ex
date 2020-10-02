@@ -7,6 +7,8 @@ defmodule DailyUtils.Todos do
   alias DailyUtils.Repo
 
   alias DailyUtils.Todos.TodoList
+  alias DailyUtils.Todos
+  alias DailyUtils.Users.User
 
   @doc """
   Returns the list of todo_lists.
@@ -19,6 +21,28 @@ defmodule DailyUtils.Todos do
   """
   def list_todo_lists do
     Repo.all(TodoList)
+  end
+
+  @doc """
+  Returns the users list of todo_lists.
+
+  ## Examples
+
+      iex> list_user_todo_lists()
+      [%TodoList{}, ...]
+
+  """
+  def list_user_todo_lists(user_id) do
+    user =
+      User
+      |> where([user], user.id == ^user_id)
+      |> join(:left, [user], todo_lists in assoc(user, :todo_lists))
+      |> join(:left, [user, todo_lists], todo_items in assoc(todo_lists, :todo_items))
+      |> preload([user, todo_lists, todo_items], todo_lists: {todo_lists, todo_items: todo_items})
+      |> Repo.one()
+
+    # Repo.get_by(TodoList, user_id: user_id)
+    # Repo.all(from tl in TodoList, where: tl.user_id = ^user_id)
   end
 
   @doc """
@@ -131,20 +155,23 @@ defmodule DailyUtils.Todos do
       ** (Ecto.NoResultsError)
 
   """
-  def get_todo_item!(id), do:
-    todo_item = TodoItem
-    |> where([todo_item], todo_item.id == ^id)
-    |> join(:left, [u], _ in assoc(u, :todo_list))
-    |> preload([_, p], [todo_list: p])
-    |> Repo.one
-    # |> Repo.get!(TodoItem, id)
+  def get_todo_item!(id),
+    do:
+      todo_item =
+        TodoItem
+        |> where([todo_item], todo_item.id == ^id)
+        |> join(:left, [u], _ in assoc(u, :todo_list))
+        |> preload([_, p], todo_list: p)
+        |> Repo.one()
 
-#     user = Blog.User
-# |> where([user], user.id == ^user_id)
-# |> join(:left, [u], _ in assoc(u, :posts))
-# |> join(:left, [_, posts], _ in assoc(posts, :comments))
-# |> preload([_, p, c], [posts: {p, comments: c}])
-# |> Blog.Repo.one
+  # |> Repo.get!(TodoItem, id)
+
+  #     user = Blog.User
+  # |> where([user], user.id == ^user_id)
+  # |> join(:left, [u], _ in assoc(u, :posts))
+  # |> join(:left, [_, posts], _ in assoc(posts, :comments))
+  # |> preload([_, p, c], [posts: {p, comments: c}])
+  # |> Blog.Repo.one
 
   @doc """
   Creates a todo_item.

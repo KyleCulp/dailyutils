@@ -1,0 +1,26 @@
+beet
+the
+meat
+<div id="user_<%= @user.id %>">
+  <div>
+    <%= @user.email %>
+  </div>
+  <br />
+  <ul>
+    <%= for todo_list <- @user.todo_lists do %>
+    <li id="todo_list_<%= todo_list.id %>">
+      Todo List: <%= todo_list.name %>
+      <ul>
+        <%= for todo_item <- todo_list.todo_items do %>
+        <li>
+          Task: <%= todo_item.name %>
+          Completed: <%= todo_item.completed %>
+        </li>
+        <% end %>
+      </ul>
+    </li>
+    <% end %>
+  </ul>
+</div>
+
+pls why god

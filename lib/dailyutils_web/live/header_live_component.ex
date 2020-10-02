@@ -1,4 +1,4 @@
-defmodule DailyUtilsWeb.LiveComponents.Header do
+defmodule DailyUtilsWeb.HeaderLiveComponent do
   use DailyUtilsWeb, :live_component
 
   def render(assigns) do

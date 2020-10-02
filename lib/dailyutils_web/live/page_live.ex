@@ -6,6 +6,12 @@ defmodule DailyUtilsWeb.PageLive do
     {:ok, assign(socket, query: "", results: %{})}
   end
 
+  def render(assigns) do
+    ~L"""
+    ...
+    """
+  end
+
   @impl true
   def handle_event("suggest", %{"q" => query}, socket) do
     {:noreply, assign(socket, results: search(query), query: query)}

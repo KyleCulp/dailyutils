@@ -9,10 +9,11 @@ defmodule DailyUtilsWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
+    plug :fetch_flash
     plug :fetch_live_flash
-    plug :put_root_layout, {DailyUtilsWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_root_layout, {DailyUtilsWeb.LayoutView, :root}
   end
 
   pipeline :api do
@@ -22,6 +23,8 @@ defmodule DailyUtilsWeb.Router do
   pipeline :protected do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
+
+    plug DailyUtilsWeb.AssignUser
   end
 
   pipeline :not_authenticated do
@@ -61,17 +64,18 @@ defmodule DailyUtilsWeb.Router do
     live "/users/:id", UserLive.Show, :show
     live "/users/:id/show/edit", UserLive.Show, :edit
 
-    live "/", PageLive, :index
+    # live "/", PageLive, :index
   end
 
   scope "/", DailyUtilsWeb do
     pipe_through [:browser, :protected]
-    live "/todo_lists", TodoListLive.Index, :index
-    live "/todo_lists/new", TodoListLive.Index, :new
-    live "/todo_lists/:id/edit", TodoListLive.Index, :edit
+    live "/", TodosLive.Index, :index
+    # live "/todo_lists", TodoListLive.Index, :index
+    # live "/todo_lists/new", TodoListLive.Index, :new
+    # live "/todo_lists/:id/edit", TodoListLive.Index, :edit
 
-    live "/todo_lists/:id", TodoListLive.Show, :show
-    live "/todo_lists/:id/show/edit", TodoListLive.Show, :edit
+    # live "/todo_lists/:id", TodoListLive.Show, :show
+    # live "/todo_lists/:id/show/edit", TodoListLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

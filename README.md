@@ -2,6 +2,8 @@
 
 Set localhost to 127.0.0.1 in host file
 
+Liveviews are same vibe as vanilla phoenix but the controller is in live instead
+
 To start your Phoenix server:
 
 - Install dependencies with `mix deps.get`
