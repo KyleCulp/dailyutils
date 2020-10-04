@@ -1,26 +1,77 @@
-beet
-the
-meat
-<div id="user_<%= @user.id %>">
-  <div>
-    <%= @user.email %>
-  </div>
-  <br />
-  <ul>
-    <%= for todo_list <- @user.todo_lists do %>
-    <li id="todo_list_<%= todo_list.id %>">
-      Todo List: <%= todo_list.name %>
-      <ul>
-        <%= for todo_item <- todo_list.todo_items do %>
-        <li>
-          Task: <%= todo_item.name %>
-          Completed: <%= todo_item.completed %>
-        </li>
+<div class="min-h-screen flex items-left bg-gray-100">
+  <div class="flex w-full max-w-xs p-4 bg-white">
+    <ul class="flex flex-col w-full">
+      <li class="my-px">
+        <a href="#" class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 bg-gray-100">
+          <span class="flex items-center justify-center text-lg text-gray-400">
+            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+              stroke="currentColor" class="h-6 w-6">
+              <path
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+              </path>
+            </svg>
+          </span>
+          <span class="ml-3">Home</span>
+        </a>
+      </li>
+      <li class="my-px">
+        <span class="flex font-medium text-sm text-gray-400 px-4 my-4 uppercase">Todo Lists</span>
+      </li>
+      <li class="my-px">
+        <%= live_patch to: Routes.todos_index_path(@socket, :index) do %>
+        <p
+          class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-200">
+          <span class="flex items-center justify-center text-lg text-gray-400">
+            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+              stroke="currentColor" class="h-6 w-6">
+              <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"></path>
+            </svg>
+          </span>
+          <span class="ml-3">Dashboard</span>
+        </p>
         <% end %>
-      </ul>
-    </li>
-    <% end %>
-  </ul>
+      </li>
+      <!-- Render all users todo list names in navigation -->
+      <%= for todo_list <- @current_user.todo_lists do %>
+      <li class="my-px" id="todo_list_li_<%= todo_list.id %>">
+        <%= live_patch to: Routes.todos_index_path(@socket, :show, todo_list.id) do %>
+        <p class="flex flex-row items-center h-12 px-4 rounded-lg hover:bg-gray-200 text-gray-600 <%= if @live_action == :show && todo_list.id == @todo_list.id do %>bg-gray-200<% end %>">
+          <span class="flex items-center justify-center text-lg text-gray-400">
+            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+              stroke="currentColor" class="h-6 w-6">
+              <path
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+              </path>
+            </svg>
+          </span>
+          <span class="ml-3"><%= todo_list.name %></span>
+        </p>
+        <% end %>
+      </li>
+      <% end %>
+      <!-- Render all users todo list names in navigation -->
+      <%= if @live_action == :new do %>
+      <%# <%= live_component @socket, DailyUtilsWeb.TodosLive.TodoList, todo_list: @todo_list %> %>
+      <% end %>
+      <li class="my-px">
+        <a href="#" class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+          <span class="flex items-center justify-center text-lg text-green-400">
+            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+              stroke="currentColor" class="h-6 w-6">
+              <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </span>
+          <span class="ml-3">Add new</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- The tabs content -->
+  <%= if @live_action == :show do %>
+  <%= live_component @socket, DailyUtilsWeb.TodosLive.TodoList, todo_list: @todo_list %>
+  <% end %>
+  <%= if @live_action != :show do %>
+  Reeee
+  <% end %>
 </div>
-
-pls why god
+</div>

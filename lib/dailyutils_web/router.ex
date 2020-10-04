@@ -69,7 +69,9 @@ defmodule DailyUtilsWeb.Router do
 
   scope "/", DailyUtilsWeb do
     pipe_through [:browser, :protected]
-    live "/", TodosLive.Index, :index
+    live "/", PageLive
+    live "/todos", TodosLive.Index, :index
+    live "/todos/:id", TodosLive.Index, :show
     # live "/todo_lists", TodoListLive.Index, :index
     # live "/todo_lists/new", TodoListLive.Index, :new
     # live "/todo_lists/:id/edit", TodoListLive.Index, :edit

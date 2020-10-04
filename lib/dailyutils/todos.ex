@@ -59,8 +59,19 @@ defmodule DailyUtils.Todos do
       ** (Ecto.NoResultsError)
 
   """
-  def get_todo_list!(id), do: Repo.get!(TodoList, id)
+  def get_todo_list!(id) do
+    todo_list =
+      TodoList
+      |> where([todo_list], todo_list.id == ^id)
+      |> join(:left, [todo_lists], todo_items in assoc(todo_lists, :todo_items))
+      |> preload([todo_lists, todo_items], todo_items: todo_items)
+      |> Repo.one()
+  end
 
+  @spec create_todo_list(
+          :invalid
+          | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: any
   @doc """
   Creates a todo_list.
 
