@@ -1,4 +1,4 @@
-<div class="min-h-screen flex items-left bg-gray-100">
+<div class="min-h-full flex items-left bg-gray-100">
   <div class="flex w-full max-w-xs p-4 bg-white">
     <ul class="flex flex-col w-full">
       <li class="my-px">
@@ -68,7 +68,19 @@
   </div>
   <!-- The tabs content -->
   <%= if @live_action == :show do %>
-  <%= live_component @socket, DailyUtilsWeb.TodosLive.TodoList, todo_list: @todo_list %>
+  <div id="todo_list_<%= @todo_list.id %>" class="flex flex-col w-full">
+    <%= for todo_item <- @todo_list.todo_items do %>
+    <div id="todo_item_<%= todo_item.id %>">
+      <div class="text-gray-700 bg-gray-400 px-4 py-2 m-2 .align-middle">
+        <%= checkbox(:todo_item, :completed, phx_click: "toggle_completed", phx_value_id: todo_item.id, value: todo_item.completed) %>
+
+        <label class=".align-middle inline-flex items-center mt-3">
+           <span class="ml-2 text-gray-700"><%= todo_item.name %></span>
+       </label>
+      </div>
+    </div>
+    <% end %>
+  </div>
   <% end %>
   <%= if @live_action != :show do %>
   Reeee

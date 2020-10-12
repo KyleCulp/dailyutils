@@ -1,9 +1,6 @@
-<div class="bg-black">
-
-  <!-- The tabs content -->
-
-  <div class="flex w-full max-w-xs p-4 bg-blue">
-    <ul class="flex flex-col w-full bg-blue">
+<div class="min-h-full flex items-left bg-gray-100">
+  <div class="flex w-full max-w-xs p-4 bg-white">
+    <ul class="flex flex-col w-full">
       <li class="my-px">
         <a href="#" class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 bg-gray-100">
           <span class="flex items-center justify-center text-lg text-gray-400">
@@ -37,7 +34,7 @@
       <!-- Render all users todo list names in navigation -->
       <%= for todo_list <- @current_user.todo_lists do %>
       <li class="my-px" id="todo_list_li_<%= todo_list.id %>">
-        <%= live_patch to: Routes.todos_show_path(@socket, :show, todo_list.id) do %>
+        <%= live_patch to: Routes.todos_index_path(@socket, :show, todo_list.id) do %>
         <p class="flex flex-row items-center h-12 px-4 rounded-lg hover:bg-gray-200 text-gray-600 <%= if @live_action == :show && todo_list.id == @todo_list.id do %>bg-gray-200<% end %>">
           <span class="flex items-center justify-center text-lg text-gray-400">
             <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
@@ -70,5 +67,23 @@
     </ul>
   </div>
   <!-- The tabs content -->
+  <%= if @live_action == :show do %>
+  <div id="todo_list_<%= @todo_list.id %>" class="flex flex-col w-full">
+    <%= for todo_item <- @todo_list.todo_items do %>
+    <div id="todo_item_<%= todo_item.id %>">
+      <div class="text-gray-700 bg-gray-400 px-4 py-2 m-2 .align-middle">
+        <%= checkbox(:todo_item, :completed, phx_click: "toggle_completed", phx_value_id: todo_item.id, value: todo_item.completed) %>
 
+        <label class=".align-middle inline-flex items-center mt-3">
+           <span class="ml-2 text-gray-700"><%= todo_item.name %></span>
+       </label>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
+  <%= if @live_action != :show do %>
+  Reeee
+  <% end %>
+</div>
 </div>

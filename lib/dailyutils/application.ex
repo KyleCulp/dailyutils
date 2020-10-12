@@ -16,7 +16,7 @@ defmodule DailyUtils.Application do
       # Start the Endpoint (http/https)
       DailyUtilsWeb.Endpoint,
       # Start a worker by calling: DailyUtils.Worker.start_link(arg)
-      # {DailyUtils.Worker, arg}
+      # {DailyUtils.Worker, arg},
       Pow.Store.Backend.MnesiaCache
     ]
 

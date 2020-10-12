@@ -10,6 +10,18 @@ defmodule DailyUtils.Todos do
   alias DailyUtils.Todos
   alias DailyUtils.Users.User
 
+  @topic inspect(__MODULE__)
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(DailyUtils.PubSub, @topic)
+  end
+
+  defp broadcast_change({:ok, result}, event) do
+    Phoenix.PubSub.broadcast(DailyUtils.PubSub, @topic, {__MODULE__, event, result})
+
+    {:ok, result}
+  end
+
   @doc """
   Returns the list of todo_lists.
 
@@ -88,6 +100,7 @@ defmodule DailyUtils.Todos do
     %TodoList{}
     |> TodoList.changeset(attrs)
     |> Repo.insert()
+    |> broadcast_change([:todo_list, :created])
   end
 
   @doc """
@@ -106,6 +119,7 @@ defmodule DailyUtils.Todos do
     todo_list
     |> TodoList.changeset(attrs)
     |> Repo.update()
+    |> broadcast_change([:todo_list, :updated])
   end
 
   @doc """
@@ -121,7 +135,9 @@ defmodule DailyUtils.Todos do
 
   """
   def delete_todo_list(%TodoList{} = todo_list) do
-    Repo.delete(todo_list)
+    todo_list
+      |> Repo.delete()
+      |> broadcast_change([:todo_list, :deleted])
   end
 
   @doc """
@@ -200,6 +216,7 @@ defmodule DailyUtils.Todos do
     %TodoItem{}
     |> TodoItem.changeset(attrs)
     |> Repo.insert()
+    |> broadcast_change([:todo_item, :created])
   end
 
   @doc """
@@ -218,6 +235,7 @@ defmodule DailyUtils.Todos do
     todo_item
     |> TodoItem.changeset(attrs)
     |> Repo.update()
+    |> broadcast_change([:todo_item, :updated])
   end
 
   @doc """
@@ -233,7 +251,9 @@ defmodule DailyUtils.Todos do
 
   """
   def delete_todo_item(%TodoItem{} = todo_item) do
-    Repo.delete(todo_item)
+    todo_item
+      |> Repo.delete()
+      |> broadcast_change([:todo_item, :deleted])
   end
 
   @doc """

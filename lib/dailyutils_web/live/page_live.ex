@@ -8,7 +8,7 @@ defmodule DailyUtilsWeb.PageLive do
 
   def render(assigns) do
     ~L"""
-    <%= live_patch "todos", to: Routes.todos_index_path(@socket, :index) %>
+    page live yaboiiii
     """
   end
 

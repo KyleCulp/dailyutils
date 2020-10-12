@@ -18,8 +18,35 @@ defmodule DailyUtilsWeb.TodosLive.TodoList do
           </label>
         </div>
       </div>
+      </form>
     <% end %>
     </div>
     """
   end
+
+  def update(assigns, socket) do
+    todo_list = Todos.get_todo_list!(assigns.todo_list_id)
+    # user = Repo.get! User, assigns.id
+    {:ok, assign(socket, :todo_list, todo_list)}
+  end
+
+  # def preload(list_of_assigns) do
+  #   list_of_ids = Enum.map(list_of_assigns, & &1.id)
+
+  #   users =
+  #     from(tl in TodoList, where: tl.id in ^list_of_ids, select: {tl.id, tl})
+  #     |> Repo.all()
+  #     |> Map.new()
+
+  #   Enum.map(list_of_assigns, fn assigns ->
+  #     Map.put(assigns, :todo_list, users[assigns.id])
+  #   end)
+
+  # end
+
+  def handle_event("update_completed", %{"completed" => completed}, socket) do
+    # Phoenix.PubSub.broadcast(DailyUtils.PubSub, board_topic(socket), message)
+    {:noreply, socket}
+  end
+
 end

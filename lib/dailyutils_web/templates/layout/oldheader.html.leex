@@ -1,0 +1,35 @@
+<header x-data="{ navOpen: true }" class="w-full flex bg-grey-900 items-center justify-around">
+  <div class="flex items-center justify-around">
+    <div>
+      <%= live_patch to: Routes.live_path(@socket, DailyUtilsWeb.PageLive) do %>
+        <img class="px-1 h-8" src="https://camo.githubusercontent.com/87c291b2367c6196dc5f80c4f6417f421db5998d/68747470733a2f2f63646e2e737667706f726e2e636f6d2f6c6f676f732f63616d706169676e6d6f6e69746f722e737667" alt="Campaign Monitor" >
+      <% end %>
+    </div>
+    <!-- mobile menu button -->
+    <button class="p-2 text-gray-900 hover:bg-gray-100 focus:outline-none" aria-label="Main menu" aria-expanded="false" @click="navOpen = !navOpen" :class="{ 'bg-gray-200' : navOpen }">
+        <svg class="h-8 w-8" :class="{ 'hidden' : navOpen }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg class="hidden h-8 w-8" :class="{ 'hidden' : !navOpen }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+  </div>
+  <nav  class="">
+
+      <!-- mobile menu-->
+      <div class="hidden" :class="{ 'block' : navOpen , 'hidden' : !navOpen }">
+        <div class="w-full flex">
+          <span class="bg-gray-100 hover:bg-gray-200 p-3 flex-grow">
+            <%= live_patch "Home", to: Routes.live_path(@socket, DailyUtilsWeb.PageLive) %>
+          </span>
+        </div>
+        <div class="w-full flex">
+          <span class="bg-gray-100 hover:bg-gray-200 p-3 flex-grow">
+            <%= live_patch "Todos", to: Routes.todos_index_path(@socket, :index) %>
+          </span>
+        </div>
+      </div>
+
+  </nav>
+</header>
