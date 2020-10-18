@@ -16,5 +16,6 @@ defmodule DailyUtils.Todos.TodoItem do
     |> cast(attrs, [:name, :completed, :todo_list_id])
     |> validate_required([:name, :completed, :todo_list_id])
     |> foreign_key_constraint(:todo_list_id)
+    |> validate_length(:name, min: 1)
   end
 end

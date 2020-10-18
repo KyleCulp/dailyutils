@@ -16,5 +16,7 @@ defmodule DailyUtils.Todos.TodoList do
     todo_list
     |> cast(attrs, [:name, :color, :user_id])
     |> validate_required([:name])
+    |> cast_assoc(:todo_items, required: true)
+    |> validate_length(:name, min: 1)
   end
 end

@@ -13,11 +13,25 @@
 
 </head>
 
-<body>
-  <div class="container h-screen mx-auto bg-blue-500 p-5 ">
-    <%= live_render(@conn, DailyUtilsWeb.HeaderLive) %>
-    <%= @inner_content %>
-  </div>
+<script>
+  function data() {
+
+    return {
+      isProfileMenuOpen: false,
+      toggleProfileMenu() {
+        this.isProfileMenuOpen = !this.isProfileMenuOpen
+      },
+      closeProfileMenu() {
+        this.isProfileMenuOpen = false
+      },
+
+
+    }
+  }
+</script>
+
+<body class="leading-normal tracking-normal">
+  <%= @inner_content %>
 </body>
 
 </html>

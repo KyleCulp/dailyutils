@@ -1,7 +1,14 @@
+<div class="h-screen mx-auto bg-gray-100 dark-mode:bg-gray-900">
+
+  <%= live_render @socket, DailyUtilsWeb.HeaderLive, id: "todo_lists" %>
+
   <p class="alert alert-info" role="alert" phx-click="lv:clear-flash" phx-value-key="info">
     <%= live_flash(@flash, :info) %></p>
 
   <p class="alert alert-danger" role="alert" phx-click="lv:clear-flash" phx-value-key="error">
     <%= live_flash(@flash, :error) %></p>
 
-  <%= @inner_content %>
+  <main class="h-full overflow-y-auto">
+    <%= @inner_content %>
+  </main>
+</div>

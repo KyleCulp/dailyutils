@@ -22,6 +22,7 @@ defmodule DailyUtils.Todos do
     {:ok, result}
   end
 
+  @spec list_todo_lists :: any
   @doc """
   Returns the list of todo_lists.
 

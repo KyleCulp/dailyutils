@@ -1,1 +1,13 @@
-xdddd
+  <%# <%= @todo_list.name %>
+
+  <ul>
+    <%= for todo_item <- @todo_list.todo_items do %>
+    <li>
+      <div>
+        <%= checkbox(:todo_item, :completed, phx_click: "toggle_completed", phx_value_id: todo_item.id, value: todo_item.completed) %>
+
+        <%= todo_item.name %>
+      </div>
+    </li>
+    <% end %>
+  </ul>
