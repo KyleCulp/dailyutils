@@ -1,13 +1,22 @@
-  <%# <%= @todo_list.name %>
-
-  <ul>
-    <%= for todo_item <- @todo_list.todo_items do %>
+<div class="flex">
+  <ul class="w-screen mx-auto ">
     <li>
-      <div>
-        <%= checkbox(:todo_item, :completed, phx_click: "toggle_completed", phx_value_id: todo_item.id, value: todo_item.completed) %>
+      <%= f = form_for @changeset, "#", [phx_submit: :add_todo_item]  %>
+      <%= text_input f, :name, placeholder: "What do you want to get done?" %>
+      <%= hidden_input f, :todo_list_id, value: @todo_list.id %>
+      </form>
+    </li>
+    <%= for todo_item <- @todo_list.todo_items do %>
+    <li id="<%= todo_item.id %>">
+      <%= f = form_for @changeset, "#", [phx_submit: "validate", class: "flex p4 mt-1 shadow bg-white p2"] %>
 
-        <%= todo_item.name %>
-      </div>
+      <%= hidden_input f, :id, value: todo_item.id %>
+      <%= hidden_input f, :todo_list_id, value: @todo_list.id %>
+
+      <%= checkbox f, :completed, value: todo_item.completed, class: "align-bottom shadow border rounded py-2 px-3 ml-4 mr-4 text-grey-darker" %>
+      <%= text_input f, :name, value: todo_item.name, class: " appearance-none border rounded w-full py-2 px-3 ml-4 mr-4 text-grey-darker" %>
+      </form>
     </li>
     <% end %>
   </ul>
+</div>
