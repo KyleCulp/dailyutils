@@ -1,5 +1,5 @@
-<div class="flex">
-  <ul class="w-screen mx-auto ">
+<div class="flex w-screen">
+  <ul class="w-full p-4">
     <li>
       <%= f = form_for @changeset, "#", [phx_submit: :add_todo_item]  %>
       <%= text_input f, :name, placeholder: "What do you want to get done?" %>
@@ -7,14 +7,14 @@
       </form>
     </li>
     <%= for todo_item <- @todo_list.todo_items do %>
-    <li id="<%= todo_item.id %>">
-      <%= f = form_for @changeset, "#", [phx_submit: "validate", class: "flex p4 mt-1 shadow bg-white p2"] %>
+    <li id="<%= todo_item.id %>" class="align-middle">
+      <%= f = form_for @changeset, "#", [phx_submit: "validate", class: "bg-white flex items-center shadow-lg d-2 my-2 py-2 px-4"] %>
 
       <%= hidden_input f, :id, value: todo_item.id %>
       <%= hidden_input f, :todo_list_id, value: @todo_list.id %>
 
-      <%= checkbox f, :completed, value: todo_item.completed, class: "align-bottom shadow border rounded py-2 px-3 ml-4 mr-4 text-grey-darker" %>
-      <%= text_input f, :name, value: todo_item.name, class: " appearance-none border rounded w-full py-2 px-3 ml-4 mr-4 text-grey-darker" %>
+      <%= checkbox :todo_item, :completed, value: todo_item.completed, class: "mr-2 form-checkbox h-5 w-5", phx_click: "toggle_completed", phx_value_id: todo_item.id %>
+      <%= textarea f, :name, value: todo_item.name, class: " appearance-none border-none rounded w-full py-2 px-3 ml-4 mr-4 text-grey-darker h-10" %>
       </form>
     </li>
     <% end %>
