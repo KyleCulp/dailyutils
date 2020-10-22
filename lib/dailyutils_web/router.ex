@@ -72,8 +72,8 @@ defmodule DailyUtilsWeb.Router do
     live "/", PageLive
     live "/todos", TodosLive.Index, :index
     live "/todos/:id", TodosLive.Show, :show
-    live "/todos/:id", TodosLive.Show, :edit
-    live "/todos/:id", TodosLive.Show, :create
+    # live "/todos/:id", TodosLive.Show, :edit
+    # live "/todos/:id", TodosLive.Show, :create
     # live "/todo_lists", TodoListLive.Index, :index
     # live "/todo_lists/new", TodoListLive.Index, :new
     # live "/todo_lists/:id/edit", TodoListLive.Index, :edit

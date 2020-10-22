@@ -50,6 +50,10 @@ defmodule DailyUtilsWeb.TodosLive.Show do
     {:noreply, assign(socket, changeset: changeset)}
   end
 
+
+  def handle_info({Todos, [:todo_item | _], _}, socket) do
+    {:noreply, socket}
+  end
   # defp schedule_save() do
   #   Process.send_after(self(), :store, 10 * 1_000)
   # end

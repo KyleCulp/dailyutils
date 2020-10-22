@@ -15,8 +15,8 @@ defmodule DailyUtils.Todos.TodoList do
   def changeset(todo_list, attrs) do
     todo_list
     |> cast(attrs, [:name, :color, :user_id])
-    |> validate_required([:name])
-    |> cast_assoc(:todo_items, required: true)
+    |> validate_required([:name, :user_id])
+    |> foreign_key_constraint(:user_id)
     |> validate_length(:name, min: 1)
   end
 end

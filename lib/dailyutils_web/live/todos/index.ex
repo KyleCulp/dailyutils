@@ -13,12 +13,16 @@ defmodule DailyUtilsWeb.TodosLive.Index do
 
   def mount(_params, %{"user_id" => user_id}, socket) do
     user = Todos.list_user_todo_lists(user_id)
+    assigns = [
+      current_user: user,
+      todo_lists: user.todo_lists,
+      changeset: TodoList.changeset(%TodoList{}, %{user_id: user_id})
+    ]
     Todos.subscribe()
-    {:ok, assign(socket, current_user: user, todo_lists: user.todo_lists)}
+    {:ok, assign(socket, assigns)}
   end
 
-  @impl true
-  def handle_params(params, _url, socket) do
+    def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
@@ -31,15 +35,22 @@ defmodule DailyUtilsWeb.TodosLive.Index do
   #   {:noreply, fetch(socket)}
   # end
 
-  def handle_event("toggle_completed", %{"id" => id}, socket) do
-    todo_item = Todos.get_todo_item!(id)
-    Todos.update_todo_item(todo_item, %{completed: !todo_item.completed})
+
+@impl true
+  def handle_event("add_todo_list", %{"todo_list" => todo_list}, socket) do
+    Todos.create_todo_list(todo_list)
+    IO.puts("HELP")
+
     {:noreply, socket}
   end
 
+  def handle_info({Todos, [:todo_list | _], _}, socket) do
+  {:noreply, socket}
+end
 
 
-  # defp apply_action(socket, :show, %{"id" => id}) do
+
+  # defp apply_action(socket, :show, %{"id" => id}) d
   #   todo_list = Todos.get_todo_list!(id)
 
   #   socket

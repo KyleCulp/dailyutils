@@ -1,9 +1,18 @@
 <!-- Mobile -->
 <div class="md:hidden">
   <ul>
+    <li>
+      <%= f = form_for @changeset, "#", [phx_submit: :add_todo_list]  %>
+      <%= text_input f, :name, placeholder: "Create new list" %>
+      <%= error_tag f, :name %>
+      <%= hidden_input f, :user_id, value: @current_user.id %>
+      <%= error_tag f, :user_id %>
+      <%= submit "Save" %>
+      </form>
+    </li>
     <%= for todo_list <- @todo_lists do %>
     <%= live_patch to: Routes.todos_show_path(@socket, :show, todo_list.id) do %>
-    <li><%= todo_list.name %></li>
+    <li id="<%= todo_list.id %>"><%= todo_list.name %></li>
     <% end %>
     <% end %>
   </ul>
@@ -16,7 +25,7 @@
   <% end %>
 </div>
 <!-- Desktop -->
-<div class="hidden md:block">
+<div class=" hidden md:block">
   <%= for todo_list <- @todo_lists do %>
   <%= todo_list.name %>
   <% end %>
