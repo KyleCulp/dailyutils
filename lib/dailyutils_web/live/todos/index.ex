@@ -22,7 +22,7 @@ defmodule DailyUtilsWeb.TodosLive.Index do
     {:ok, assign(socket, assigns)}
   end
 
-    def handle_params(params, _url, socket) do
+  def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
@@ -31,15 +31,19 @@ defmodule DailyUtilsWeb.TodosLive.Index do
     |> assign(:page_title, "Todo Lists")
   end
 
-  # def handle_info({Todos, [:todo_list | _], _}, socket) do
-  #   {:noreply, fetch(socket)}
-  # end
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "New Todo List")
+	end
 
+  defp apply_action(socket, :edit, _params) do
+    socket
+    |> assign(:page_title, "Edit Todo Lists")
+	end
 
-@impl true
+  @impl true
   def handle_event("add_todo_list", %{"todo_list" => todo_list}, socket) do
     Todos.create_todo_list(todo_list)
-    IO.puts("HELP")
 
     {:noreply, socket}
   end
@@ -60,7 +64,4 @@ end
   #   Phoenix.View.render(DailyUtilsWeb.TodosView, "show.html", socket)
   # end
 
-  defp list_todo_lists do
-    Todos.list_todo_lists()
-  end
 end

@@ -1,0 +1,3 @@
+[mix-phx-server]
+  command = 'mix'
+  args = ['phx.server']

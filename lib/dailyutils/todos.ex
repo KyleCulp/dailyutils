@@ -19,6 +19,7 @@ defmodule DailyUtils.Todos do
   defp broadcast_change({:ok, result}, event) do
     Phoenix.PubSub.broadcast(DailyUtils.PubSub, @topic, {__MODULE__, event, result})
 
+
     {:ok, result}
   end
 

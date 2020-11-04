@@ -3,3 +3,10 @@
 @tailwind components;
 
 @tailwind utilities;
+.light-black {
+  background-color: theme("colors.lightblack")
+}
+
+.dark-black {
+  background-color: theme("colors.black")
+}

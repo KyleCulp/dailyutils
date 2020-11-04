@@ -1,6 +1,27 @@
 <!-- Mobile -->
-<div class="md:hidden">
+<div class="md:hidden p-4">
+
+	<%= live_patch to: Routes.todos_index_path(@socket, :new) do %>
+    <span class="text-white">New</span>
+	<% end %>
+	<%= live_patch to: Routes.todos_index_path(@socket, :edit) do %>
+    <span class="text-white">Edit</span>
+	<% end %>
+  <h1 class="font-bold text-center text-2xl p-4 text-white">
+    My Todo Lists
+  </h1>
   <ul>
+		<%= Enum.with_index(@todo_lists) |> Enum.map(fn({todo_list, index}) -> %>
+      <%= live_patch to: Routes.todos_show_path(@socket, :show, todo_list.id) do %>
+      <li id="<%= todo_list.id %>" class="light-black p-2 text-lg  <%= if index == 0 do %>rounded-t-lg<% end %> <%= if index == (Enum.count(@todo_lists) - 1) do %>rounded-b-lg<% end %>">
+      <%= if @live_action == :edit do %>
+        Hmm edit
+      <% end %>
+        <span class="text-white"><%= todo_list.name %></span>
+      </li>
+    <% end %>
+		<% end) %>
+
     <li>
       <%= f = form_for @changeset, "#", [phx_submit: :add_todo_list]  %>
       <%= text_input f, :name, placeholder: "Create new list" %>
@@ -10,19 +31,7 @@
       <%= submit "Save" %>
       </form>
     </li>
-    <%= for todo_list <- @todo_lists do %>
-    <%= live_patch to: Routes.todos_show_path(@socket, :show, todo_list.id) do %>
-    <li id="<%= todo_list.id %>"><%= todo_list.name %></li>
-    <% end %>
-    <% end %>
   </ul>
-
-  <%= if @live_action != :show do %>
-  <%# <%= render "sidebar.html", assigns %>
-  <% end %>
-  <%= if @live_action == :show do %>
-  Reeeexd
-  <% end %>
 </div>
 <!-- Desktop -->
 <div class=" hidden md:block">
